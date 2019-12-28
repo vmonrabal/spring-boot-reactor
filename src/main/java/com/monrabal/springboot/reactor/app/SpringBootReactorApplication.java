@@ -3,6 +3,8 @@ package com.monrabal.springboot.reactor.app;
 import com.monrabal.springboot.reactor.app.models.Comentarios;
 import com.monrabal.springboot.reactor.app.models.Usuario;
 import com.monrabal.springboot.reactor.app.models.UsuarioComentarios;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -28,7 +30,45 @@ public class SpringBootReactorApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		ejemploIntervalDesdeCreate();
+		ejemploContraPresion();
+	}
+
+	public void ejemploContraPresion(){
+		Flux.range(1, 10)
+		.log()
+		.limitRate(5)
+		.subscribe(/*new Subscriber<Integer>() {
+			private Subscription s;
+
+			private Integer limite = 5;
+			private Integer consumido = 0;
+
+			@Override
+			public void onSubscribe(Subscription s) {
+				this.s = s;
+				s.request(limite);
+			}
+
+			@Override
+			public void onNext(Integer integer) {
+				log.info(integer.toString());
+				consumido++;
+				if(consumido == limite){
+					consumido = 0;
+					s.request(limite);
+				}
+			}
+
+			@Override
+			public void onError(Throwable throwable) {
+
+			}
+
+			@Override
+			public void onComplete() {
+
+			}
+		}*/);
 	}
 
 	public void ejemploIntervalDesdeCreate(){
